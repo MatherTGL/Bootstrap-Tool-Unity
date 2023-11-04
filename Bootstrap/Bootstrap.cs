@@ -26,6 +26,12 @@ namespace Boot
 
         private void Awake() => LoadToList();
 
+        private void Start()
+        {
+            for (ushort i = 0; i < l_bootObject.Count; i++)
+                l_bootObject[i].InitStart();
+        }
+
         private void LoadToList()
         {
             IBoot[] bootObjects = FindObjectsOfType<MonoBehaviour>()
@@ -42,7 +48,7 @@ namespace Boot
                     LoadObjectsToList(typeLoad, singleOrLotsOf, bootObjects);
 
             Array.Clear(bootObjects, 0, bootObjects.Length);
-            StartInit();
+            StartInitAwake();
         }
 
         private void LoadObjectsToList(TypeLoadObject typeLoad, TypeSingleOrLotsOf singleOrLotsOf, in IBoot[] bootObjects)
@@ -51,13 +57,10 @@ namespace Boot
                 item.GetTypeLoad().singleOrLotsOf.Equals(singleOrLotsOf)));
         }
 
-        private void StartInit()
+        private void StartInitAwake()
         {
             for (ushort i = 0; i < l_bootObject.Count; i++)
                 l_bootObject[i].InitAwake();
-
-            for (ushort i = 0; i < l_bootObject.Count; i++)
-                l_bootObject[i].InitStart();
         }
     }
 }
